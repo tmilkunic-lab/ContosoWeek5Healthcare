@@ -1,0 +1,58 @@
+﻿@model ContosoWeek5Healthcare.ViewModels.SupplyItemEditVm
+@{
+    ViewData["Title"] = "Edit Supply Item";
+}
+
+<h2>Edit Supply Item</h2>
+
+<form asp-action="Edit" method="post" novalidate>
+    <input type="hidden" asp-for="Id" />
+    <!-- same form fields as Create -->
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="ItemNumber" class="form-label"></label>
+            <input asp-for="ItemNumber" class="form-control" />
+            <span asp-validation-for="ItemNumber" class="text-danger"></span>
+        </div>
+        <div class="col-md-8 mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <label asp-for="UnitOfMeasure" class="form-label"></label>
+            <input asp-for="UnitOfMeasure" class="form-control" />
+            <span asp-validation-for="UnitOfMeasure" class="text-danger"></span>
+        </div>
+        <div class="col-md-3 mb-3">
+            <label asp-for="LeadTimeDays" class="form-label"></label>
+            <input asp-for="LeadTimeDays" class="form-control" />
+            <span asp-validation-for="LeadTimeDays" class="text-danger"></span>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label asp-for="ParLevel" class="form-label"></label>
+            <input asp-for="ParLevel" class="form-control" />
+            <span asp-validation-for="ParLevel" class="text-danger"></span>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label asp-for="ReorderPoint" class="form-label"></label>
+            <input asp-for="ReorderPoint" class="form-control" />
+            <span asp-validation-for="ReorderPoint" class="text-danger"></span>
+        </div>
+        <div class="col-md-2 mb-3">
+            <label asp-for="OnHand" class="form-label"></label>
+            <input asp-for="OnHand" class="form-control" />
+            <span asp-validation-for="OnHand" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button class="btn btn-primary">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+</form>

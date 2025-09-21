@@ -1,0 +1,65 @@
+﻿@model IEnumerable<ContosoWeek5Healthcare.Models.SupplyItem>
+@{
+    ViewData["Title"] = "Supply Items";
+    string sort = (string?)ViewData["CurrentSort"] ?? "item";
+    string currentFilter = (string?)ViewData["CurrentFilter"] ?? "";
+    int total = (int)(ViewData["Total"] ?? 0);
+    int page = (int)(ViewData["Page"] ?? 1);
+    int pageSize = (int)(ViewData["PageSize"] ?? 10);
+    int totalPages = (int)Math.Ceiling((double)total / pageSize);
+}
+<h2>Supply Items</h2>
+
+@if (TempData["Success"] is string msg)
+{
+    <div class="alert alert-success" role="alert">@msg</div>
+}
+
+<form method="get" class="mb-3">
+    <div class="input-group">
+        <input name="search" value="@currentFilter" class="form-control" placeholder="Search item # or description..." />
+        <button class="btn btn-primary">Search</button>
+        <a class="btn btn-outline-secondary" href="?">Clear</a>
+    </div>
+</form>
+
+<p><a class="btn btn-success" asp-action="Create">New Supply Item</a></p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th><a asp-action="Index" asp-route-sort="@(sort == "item_desc" ? "item" : "item_desc")" asp-route-search="@currentFilter">Item #</a></th>
+            <th><a asp-action="Index" asp-route-sort="@(sort == "desc_desc" ? "desc" : "desc_desc")" asp-route-search="@currentFilter">Description</a></th>
+            <th>UOM</th>
+            <th><a asp-action="Index" asp-route-sort="@(sort == "par_desc" ? "par" : "par_desc")" asp-route-search="@currentFilter">Par</a></th>
+            <th>ROP</th>
+            <th>OnHand</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr class="@(i.IsLowStock() ? "table-warning" : "")">
+                <td>@i.ItemNumber</td>
+                <td>@i.Description</td>
+                <td>@i.UnitOfMeasure</td>
+                <td>@i.ParLevel</td>
+                <td>@i.ReorderPoint</td>
+                <td>@i.OnHand</td>
+                <td><a asp-action="Edit" asp-route-id="@i.Id" class="btn btn-sm btn-outline-primary">Edit</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav aria-label="pager">
+    <ul class="pagination">
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-item @(i == page ? "active" : "")">
+                <a class="page-link" asp-route-page="@i" asp-route-search="@currentFilter" asp-route-sort="@sort">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
